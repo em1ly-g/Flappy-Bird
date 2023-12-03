@@ -27,6 +27,14 @@ public class Player : MonoBehaviour
         InvokeRepeating(nameof(AnimateSprite), 0.15f, 0.15f);
     }
 
+    private void OnEnable()
+    {
+        Vector3 position = transform.position;
+        position.y = 0;
+        transform.position = position;
+        direction = Vector3.zero;
+    }
+
     private void AnimateSprite()
     {
         spriteIndex++;
@@ -63,5 +71,16 @@ public class Player : MonoBehaviour
         direction.y += gravity * Time.deltaTime;
         transform.position += direction * Time.deltaTime; // This makes it frame rate independent
 
+    }
+
+    // Checks if the player has run into another trigger collider
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Obstacle")
+        {
+            FindObjectOfType<GameManager>().GameOver(); // This is expensive to use. Ok for this game.
+        }else if (other.gameObject.tag == "Scoring"){
+            FindObjectOfType<GameManager>().IncreaseScore();
+        }
     }
 }

@@ -1,0 +1,20 @@
+
+using UnityEngine;
+
+public class Parallax : MonoBehaviour
+{
+    private MeshRenderer meshRenderer;
+
+    // background element so it moves much slower
+    public float animationSpeed = 0.05f;
+
+    private void Awake()
+    {
+        meshRenderer = GetComponent<MeshRenderer>();
+    }
+
+    private void Update()
+    {
+        meshRenderer.material.mainTextureOffset += new Vector2(animationSpeed * Time.deltaTime, 0);
+    }
+}
